@@ -16,7 +16,9 @@
         <property name="hibernate.current_session_context_class">thread</property>
          
         <!-- Mapping with model class containing annotations -->
-        <mapping class="de.laliluna.examples.Agregadores"/>
+        <mapping class="de.laliluna.examples.Agregadores"  />
+        <mapping class="de.laliluna.examples.Servicios"  />
+        <mapping class="de.laliluna.examples.Pais"  />
         
         
     </session-factory>

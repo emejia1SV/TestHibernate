@@ -1,27 +1,37 @@
 package de.laliluna.examples;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Entity
-@Table(name="AGR_AGREGADORES", uniqueConstraints={@UniqueConstraint(columnNames={"ID"})})
+@Entity(name = "AGR_AGREGADORES")
+@Table(name = "AGR_AGREGADORES", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
 public class Agregadores {
 
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID", nullable = false)
 	private int id;
-	
-	@Column(name="ESTADO" , nullable=false)
+
+	@Column(name = "ESTADO", nullable = false)
 	private int estado;
-	
-	@Column(name="NOMBRE_AGREGADOR", nullable=false)
+
+	@Column(name = "NOMBRE_AGREGADOR", nullable = false)
 	private String nombre_agregador;
-	
-	@Column(name="ID_PAIS", nullable=false)
-	private int idPais;
+
+	@ManyToOne
+	@JoinColumn(name = "ID_PAIS")
+	private Pais pais;
+
+	@OneToMany(mappedBy="agregador", cascade={CascadeType.ALL})
+	private Set<Servicios> servicios;
 
 	public Agregadores() {
 
@@ -51,18 +61,25 @@ public class Agregadores {
 		this.nombre_agregador = nombre_agregador;
 	}
 
-	public int getIdPais() {
-		return idPais;
+	public Pais getPais() {
+		return pais;
 	}
 
-	public void setIdPais(int idPais) {
-		this.idPais = idPais;
+	public void setPais(Pais pais) {
+		this.pais = pais;
+	}
+
+	public Set<Servicios> getServicios() {
+		return servicios;
+	}
+
+	public void setServicios(Set<Servicios> servicios) {
+		this.servicios = servicios;
 	}
 
 	@Override
 	public String toString() {
-		return "Agregadores [id=" + id + ", nombre_agregador="
-				+ nombre_agregador + "]";
+		return "Agregadores [id=" + id + ", nombre_agregador=" + nombre_agregador + "]";
 	}
 
 }
