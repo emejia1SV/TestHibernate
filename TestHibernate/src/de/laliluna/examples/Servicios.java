@@ -33,10 +33,9 @@ public class Servicios {
 	@JoinColumn(name = "ID_AGREGADOR")
 	private Agregadores agregador;
 
-	@OneToMany(mappedBy="servicio", cascade={CascadeType.ALL})
-	private Set<Metodos> metodos ;
-		
-	
+	@OneToMany(mappedBy = "servicio", cascade = { CascadeType.ALL })
+	private Set<Metodos> metodos;
+
 	public int getId() {
 		return id;
 	}
@@ -75,6 +74,14 @@ public class Servicios {
 
 	public void setAgregador(Agregadores agregador) {
 		this.agregador = agregador;
+	}
+
+	public Set<Metodos> getMetodos() {
+		return metodos;
+	}
+
+	public void setMetodos(Set<Metodos> metodos) {
+		this.metodos = metodos;
 	}
 
 	@Override

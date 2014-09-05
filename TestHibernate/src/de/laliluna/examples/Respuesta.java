@@ -1,13 +1,33 @@
 package de.laliluna.examples;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-public class Respuesta implements Serializable {
+@Entity(name = "AGR_RESPUESTASS")
+@Table(name = "AGR_RESPUESTASS", uniqueConstraints = { @UniqueConstraint(columnNames = { "ID" }) })
+public class Respuesta {
 
-	private static final long serialVersionUID = 1L;
+	@Id
+	@Column(name = "ID", nullable = false)
 	private int id;
+
+	@Column(name = "TIPO", nullable = false)
 	private String tipo;
+
+	@Column(name = "NOMBRE", nullable = false)
+	private String nombre;
+
+	@Column(name = "POSICION", nullable = false)
 	private int posicion;
+
+	@ManyToOne
+	@JoinColumn(name = "ID_METODO")
+	private Metodos metodo;
 
 	public int getId() {
 		return id;
@@ -31,6 +51,27 @@ public class Respuesta implements Serializable {
 
 	public void setPosicion(int posicion) {
 		this.posicion = posicion;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Metodos getMetodo() {
+		return metodo;
+	}
+
+	public void setMetodo(Metodos metodo) {
+		this.metodo = metodo;
+	}
+
+	@Override
+	public String toString() {
+		return "Respuesta [id=" + id + ", nombre=" + nombre + "]";
 	}
 
 }

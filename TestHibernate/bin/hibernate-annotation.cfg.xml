@@ -19,7 +19,11 @@
         <mapping class="de.laliluna.examples.Agregadores"  />
         <mapping class="de.laliluna.examples.Servicios"  />
         <mapping class="de.laliluna.examples.Pais"  />
-        
+        <mapping class="de.laliluna.examples.Metodos"  />
+        <mapping class="de.laliluna.examples.Parametros"  />
+        <mapping class="de.laliluna.examples.Respuesta"  />
+        <mapping class="de.laliluna.examples.Depuracion_bck"  />
+        <mapping class="de.laliluna.examples.Clientes_Tel"  />
         
     </session-factory>
 </hibernate-configuration>

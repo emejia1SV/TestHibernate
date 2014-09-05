@@ -1,14 +1,17 @@
 package de.laliluna.test;
 
 import java.util.List;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import de.laliluna.examples.Agregadores;
+import de.laliluna.examples.Clientes_Tel;
+import de.laliluna.examples.Metodos;
 import de.laliluna.examples.Pais;
+import de.laliluna.examples.Parametros;
+import de.laliluna.examples.Respuesta;
 import de.laliluna.examples.Servicios;
 import de.laliluna.hibernate.HibernateUtil;
 
@@ -21,9 +24,25 @@ public class TestHibernate {
 	 * @param args
 	 */	
 	public static void main(String[] args) {
-		//test3();
+		//test5();
+		//obtenerNumeros();
+		//testDeleteCascade();
+		System.out.println("hola");
+	}
+	
+	public static void obtenerNumeros(){
+		@SuppressWarnings("unchecked")
+		List<Clientes_Tel> numeros = listData("FROM CLIENTE_TEL  WHERE ID BETWEEN 0 AND 20");
 		
-		testDeleteCascade();
+		for (int i = 0; i < numeros.size(); i++) {
+			System.out.println(numeros.get(i).getNumero());
+		}
+		
+		if(HibernateUtil.getSessionAnnotationFactory().getCurrentSession().isOpen())
+        	HibernateUtil.getSessionAnnotationFactory().getCurrentSession().close();
+        	
+        if(!HibernateUtil.getSessionAnnotationFactory().isClosed())
+        	HibernateUtil.getSessionAnnotationFactory().close();
 	}
 	
 	public static void testDeleteCascade(){
@@ -85,7 +104,6 @@ public class TestHibernate {
 	}
 	
 	public static void test2() {
-		String query = "FROM AGR_AGREGADORES";
 
 		Agregadores obj = new Agregadores();
 		obj.setEstado(1);
@@ -123,7 +141,6 @@ public class TestHibernate {
 	}
 	
 	public static void test3() {
-		String query = "FROM AGR_AGREGADORES";
 
 		Pais pais = new Pais();
 		pais.setId(3);
@@ -167,7 +184,183 @@ public class TestHibernate {
         if(!HibernateUtil.getSessionAnnotationFactory().isClosed())
         	HibernateUtil.getSessionAnnotationFactory().close();
 	}
+	
+	public static void test4() {
 
+		Pais pais = new Pais();
+		pais.setId(3);
+		pais.setCodigo("504");
+		pais.setNombre("Honduras");
+		pais.setEstado(1);
+		
+		createData(pais);
+		
+		Agregadores obj = new Agregadores();
+		obj.setEstado(1);
+		obj.setPais(pais);
+		obj.setId(10);
+		obj.setNombre_agregador("prueba de insercion hibernate");
+		
+		createData(obj);
+
+		Servicios servicio = new Servicios();
+		servicio.setContrasenia("uno");
+		servicio.setUsuario("Edwin");
+		servicio.setId(10);
+		servicio.setAgregador(obj);
+		servicio.setWsdl_Agregador("http://192.168.0.100:8090/axis2/services/pruebaWsCadena?wsdl");
+
+		Servicios servicio2 = new Servicios();
+		servicio2.setContrasenia("dos");
+		servicio2.setId(11);
+		servicio2.setUsuario("Edwin");
+		servicio2.setAgregador(obj);
+		servicio2.setWsdl_Agregador("http://192.168.0.100:8090/axis2/services/pruebaWsCadena?wsdl");
+		
+		createData(servicio);
+		createData(servicio2);
+		
+		Metodos metodo=new Metodos();
+		metodo.setId(7);
+		metodo.setNombre("metodoPrueba");
+		metodo.setServicio(servicio);
+		
+		createData(metodo);
+
+        if(HibernateUtil.getSessionAnnotationFactory().getCurrentSession().isOpen())
+        	HibernateUtil.getSessionAnnotationFactory().getCurrentSession().close();
+        	
+        if(!HibernateUtil.getSessionAnnotationFactory().isClosed())
+        	HibernateUtil.getSessionAnnotationFactory().close();
+	}
+	
+	public static void test5() {
+
+		Pais pais = new Pais();
+		pais.setId(3);
+		pais.setCodigo("504");
+		pais.setNombre("Honduras");
+		pais.setEstado(1);
+		
+		createData(pais);
+		
+		Agregadores obj = new Agregadores();
+		obj.setEstado(1);
+		obj.setPais(pais);
+		obj.setId(10);
+		obj.setNombre_agregador("prueba de insercion hibernate");
+		
+		createData(obj);
+
+		Servicios servicio = new Servicios();
+		servicio.setContrasenia("uno");
+		servicio.setUsuario("Edwin");
+		servicio.setId(10);
+		servicio.setAgregador(obj);
+		servicio.setWsdl_Agregador("http://192.168.0.100:8090/axis2/services/pruebaWsCadena?wsdl");
+
+		Servicios servicio2 = new Servicios();
+		servicio2.setContrasenia("dos");
+		servicio2.setId(11);
+		servicio2.setUsuario("Edwin");
+		servicio2.setAgregador(obj);
+		servicio2.setWsdl_Agregador("http://192.168.0.100:8090/axis2/services/pruebaWsCadena?wsdl");
+		
+		createData(servicio);
+		createData(servicio2);
+		
+		Metodos metodo=new Metodos();
+		metodo.setId(7);
+		metodo.setNombre("metodoPrueba");
+		metodo.setServicio(servicio);
+		
+		createData(metodo);
+		
+		Parametros parametros = new Parametros();
+		parametros.setId(22);
+		parametros.setColumna("NUMERO");
+		parametros.setInsumo("insumo1");
+		parametros.setMetodo(metodo);
+		parametros.setNombre("movil");
+		parametros.setTipo("java.lang.String");
+		
+		createData(parametros);
+
+        if(HibernateUtil.getSessionAnnotationFactory().getCurrentSession().isOpen())
+        	HibernateUtil.getSessionAnnotationFactory().getCurrentSession().close();
+        	
+        if(!HibernateUtil.getSessionAnnotationFactory().isClosed())
+        	HibernateUtil.getSessionAnnotationFactory().close();
+	}
+
+	public static void test6() {
+
+		Pais pais = new Pais();
+		pais.setId(3);
+		pais.setCodigo("504");
+		pais.setNombre("Honduras");
+		pais.setEstado(1);
+		
+		createData(pais);
+		
+		Agregadores obj = new Agregadores();
+		obj.setEstado(1);
+		obj.setPais(pais);
+		obj.setId(10);
+		obj.setNombre_agregador("prueba de insercion hibernate");
+		
+		createData(obj);
+
+		Servicios servicio = new Servicios();
+		servicio.setContrasenia("uno");
+		servicio.setUsuario("Edwin");
+		servicio.setId(10);
+		servicio.setAgregador(obj);
+		servicio.setWsdl_Agregador("http://192.168.0.100:8090/axis2/services/pruebaWsCadena?wsdl");
+
+		Servicios servicio2 = new Servicios();
+		servicio2.setContrasenia("dos");
+		servicio2.setId(11);
+		servicio2.setUsuario("Edwin");
+		servicio2.setAgregador(obj);
+		servicio2.setWsdl_Agregador("http://192.168.0.100:8090/axis2/services/pruebaWsCadena?wsdl");
+		
+		createData(servicio);
+		createData(servicio2);
+		
+		Metodos metodo=new Metodos();
+		metodo.setId(7);
+		metodo.setNombre("metodoPrueba");
+		metodo.setServicio(servicio);
+		
+		createData(metodo);
+		
+		Parametros parametros = new Parametros();
+		parametros.setId(22);
+		parametros.setColumna("NUMERO");
+		parametros.setInsumo("insumo1");
+		parametros.setMetodo(metodo);
+		parametros.setNombre("movil");
+		parametros.setTipo("java.lang.String");
+		
+		createData(parametros);
+		
+		Respuesta respuesta = new Respuesta();
+		respuesta.setId(1);
+		respuesta.setNombre("ni idea");
+		respuesta.setPosicion(2);
+		respuesta.setTipo("java.lang.String");
+		respuesta.setMetodo(metodo);
+		
+		createData(respuesta);
+
+        if(HibernateUtil.getSessionAnnotationFactory().getCurrentSession().isOpen())
+        	HibernateUtil.getSessionAnnotationFactory().getCurrentSession().close();
+        	
+        if(!HibernateUtil.getSessionAnnotationFactory().isClosed())
+        	HibernateUtil.getSessionAnnotationFactory().close();
+	}
+	
 	/**
 	 * Metodo para oobtener una lista de datos
 	 * 
