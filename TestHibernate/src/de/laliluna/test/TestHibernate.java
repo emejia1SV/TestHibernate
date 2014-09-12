@@ -25,9 +25,9 @@ public class TestHibernate {
 	 */	
 	public static void main(String[] args) {
 		//test5();
-		//obtenerNumeros();
+		obtenerNumeros();
 		//testDeleteCascade();
-		System.out.println("hola");
+		//System.out.println("hola");
 	}
 	
 	public static void obtenerNumeros(){
